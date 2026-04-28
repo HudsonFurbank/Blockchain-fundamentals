@@ -10,9 +10,9 @@ class InventoryNode:
         self.identityId = identityId
         self.randomValue = randomValue
         self.dataFile = Path(dataFile)
-        self.records = self.load_records()
+        self.records = self.loadRecords()
 
-    def load_records(self):
+    def loadRecords(self):
 #   Loads the records from the inventory's .json
 
         with open(self.dataFile, "r", encoding="utf-8") as file:
@@ -20,17 +20,9 @@ class InventoryNode:
 
         return records
 
-    def search_item(self, itemId):
-        """
-        Searches this node's local records for the requested item.
-
-        Returns a dictionary with:
-        - found: True/False
-        - node: node name
-        - itemId
-        - quantity
-        - full record
-        """
+    def searchItem(self, itemId):
+#   Searches this node's local records for the requested item.
+        itemId = str(itemId).strip().zfill(3)
 
         for record in self.records:
             if str(record.get("itemId")).zfill(3) == itemId:
@@ -50,14 +42,14 @@ class InventoryNode:
             "record": None,
         }
 
-    def approve_query_result(self, itemId, acceptedQuantity):
+    def approveQueryResult(self, itemId, acceptedQuantity):
         """
         Checks whether this node agrees with the accepted quantity.
 
         This is useful before multi-signature generation.
         A node should only sign if its local data matches the accepted result.
         """
-        localResult = self.search_item(itemId)
+        localResult = self.searchItem(itemId)
 
         if not localResult["found"]:
             return {

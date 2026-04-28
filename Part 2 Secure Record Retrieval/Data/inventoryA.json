@@ -1,24 +1,24 @@
 [
   {
-    "item_id": "001",
+    "itemId": "001",
     "quantity": 32,
     "price": 12,
     "location": "D"
   },
   {
-    "item_id": "002",
+    "itemId": "002",
     "quantity": 20,
     "price": 14,
     "location": "C"
   },
   {
-    "item_id": "003",
+    "itemId": "003",
     "quantity": 22,
     "price": 16,
     "location": "B"
   },
   {
-    "item_id": "004",
+    "itemId": "004",
     "quantity": 12,
     "price": 18,
     "location": "A"
