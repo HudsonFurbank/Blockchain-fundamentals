@@ -151,9 +151,6 @@ class QueryHandler:
     def collectNodeApprovals(self, itemId, proposedQuantity):
         """
         Asks every node to approve the proposed result.
-
-        In the full Part 2 workflow, only approving nodes should generate
-        Harn partial signatures.
         """
         approvals = []
 
@@ -166,10 +163,7 @@ class QueryHandler:
     def buildCanonicalMessage(self, itemId, quantity, approvedNodes):
         """
         Creates a stable message format for hashing and signing.
-
-        Important:
         Every node must sign the exact same message.
-        Do not use unordered dictionaries directly as the signed message.
         """
         approvedNodesText = ",".join(sorted(approvedNodes))
 

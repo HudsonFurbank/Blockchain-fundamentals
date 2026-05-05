@@ -1,5 +1,5 @@
 from inventoryNode import InventoryNode
-from queryHandling import QueryHandler00
+from queryHandling import QueryHandler
 
 def createInventoryNodes():
 # creates the 4 different invent nodes using the ID's and random values from the supplied list of keys doc. 
