@@ -1,2 +1,4 @@
-inventBid = 127
-inventBrand = 721
+{
+"inventBid" : "127",
+"inventBrand" : "721"
+}
