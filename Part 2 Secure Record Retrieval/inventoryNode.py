@@ -5,11 +5,10 @@ from pathlib import Path
 class InventoryNode:
 #   Represents one inventory node in the distributed inventory system.
 
-    def __init__(self, name, identityId, randomValue, dataFile):
+    def __init__(self, name, dataFile, identityFile):
         self.name = name
-        self.identityId = identityId
-        self.randomValue = randomValue
         self.dataFile = Path(dataFile)
+        self.identityFile = Path(identityFile)
         self.records = self.loadRecords()
 
     def loadRecords(self):
@@ -19,6 +18,16 @@ class InventoryNode:
             records = json.load(file)
 
         return records
+    
+    def loadIdentityData(self):
+
+        with open(self.identityFile, "r", encoding="utf-8") as file:
+            identityData = json.load(file)
+        
+        return {
+            "inventoryId": int(identityData["inventoryId"]),
+            "randomValue": int(identityData["randomValue"]),
+        }
 
     def searchItem(self, itemId):
 #   Searches this node's local records for the requested item.

@@ -6,27 +6,23 @@ def createInventoryNodes():
 
     inventoryA = InventoryNode(
         name = "inventory A",
-        identityId = 126,
-        randomValue = 621,
         dataFile = "Part 2 Secure Record Retrieval/data/inventoryA.json",
+        identityFile = "Part 2 Secure Record Retrieval/data/inventoryAIdent.json"
     )
     inventoryB = InventoryNode(
         name = "inventory B",
-        identityId = 127,
-        randomValue = 721,
         dataFile = "Part 2 Secure Record Retrieval/data/inventoryB.json",
+        identityFile = "Part 2 Secure Record Retrieval/data/inventoryBIdent.json"
     )
     inventoryC = InventoryNode(
         name = "inventory c",
-        identityId = 128,
-        randomValue = 821,
         dataFile = "Part 2 Secure Record Retrieval/data/inventoryC.json",
+        identityFile = "Part 2 Secure Record Retrieval/data/inventoryAIdent.json"
     )
     inventoryD = InventoryNode(
         name = "inventory D",
-        identityId = 129,
-        randomValue = 921,
         dataFile = "Part 2 Secure Record Retrieval/data/inventoryD.json",
+        identityFile = "Part 2 Secure Record Retrieval/data/inventoryAIdent.json"
     )
 
     return [inventoryA, inventoryB, inventoryC, inventoryD]
