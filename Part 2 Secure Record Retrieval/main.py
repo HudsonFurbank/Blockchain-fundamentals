@@ -1,6 +1,7 @@
 from inventoryNode import InventoryNode
 from queryHandling import QueryHandler
 from harnMultiSignature import HarnMultiSignature
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"

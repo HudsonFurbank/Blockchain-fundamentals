@@ -9,7 +9,12 @@ class InventoryNode:
         self.name = name
         self.dataFile = Path(dataFile)
         self.identityFile = Path(identityFile)
+
         self.records = self.loadRecords()
+
+        self.identityData = self.loadIdentityData()
+        self.identityId = int(self.identityData["identityId"])
+        self.randomValue = int(self.identityData["randomValue"])
 
     def loadRecords(self):
 #   Loads the records from the inventory's .json
@@ -24,10 +29,7 @@ class InventoryNode:
         with open(self.identityFile, "r", encoding="utf-8") as file:
             identityData = json.load(file)
         
-        return {
-            "inventoryId": int(identityData["inventoryId"]),
-            "randomValue": int(identityData["randomValue"]),
-        }
+        return identityData
 
     def searchItem(self, itemId):
 #   Searches this node's local records for the requested item.
@@ -90,7 +92,6 @@ class InventoryNode:
         identityData["privateKey"] = str(privateKey)
 
         with open(self.identityFile, "w", encoding = "utf-8") as file:
-            json.dump(identityData, file, ident = 4)
+            json.dump(identityData, file, indent = 4)
 
         self.savePrivateKey = int(privateKey)
-        
