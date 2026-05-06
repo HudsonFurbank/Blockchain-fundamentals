@@ -21,7 +21,7 @@ def createInventoryNodes():
         identityFile = DATA_DIR / "inventoryBIdent.json"
     )
     inventoryC = InventoryNode(
-        name = "inventory c",
+        name = "inventory C",
         dataFile = DATA_DIR / "inventoryC.json",
         identityFile = DATA_DIR / "inventoryAIdent.json"
     )
