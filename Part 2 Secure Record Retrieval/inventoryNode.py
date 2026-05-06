@@ -82,3 +82,15 @@ class InventoryNode:
             "approved": True,
             "reason": "Local record matches proposed query result",
         }
+    
+    def savePrivateKey(self, privateKey):
+        with open(self.identityFile, "r", encoding = "utf-8") as file:
+            identityData = json.load(file)
+
+        identityData["privateKey"] = str(privateKey)
+
+        with open(self.identityFile, "w", encoding = "utf-8") as file:
+            json.dump(identityData, file, ident = 4)
+
+        self.savePrivateKey = int(privateKey)
+        
