@@ -35,9 +35,12 @@ class SecureDelivery:
         plaintextBytes = plaintext.encode("utf-8")
 
         cipherBlocks = []
+        blockLengths = []
 
         for i in range(0, len(plaintextBytes), self.blockSize):
             block = plaintextBytes[i:i + self.blockSize]
+
+            blockLengths.append(len(block))
 
             messageInt = int.from_bytes(block, byteorder="big")
             cipherInt = pow(messageInt, self.e, self.n)
@@ -46,8 +49,7 @@ class SecureDelivery:
 
         return {
             "cipherBlocks": cipherBlocks,
-            "blockSize": self.blockSize,
-            "originalLength": len(plaintextBytes)
+            "blockLengths": blockLengths
         }
 
     def decryptText(self, encryptedPackage):
@@ -59,20 +61,17 @@ class SecureDelivery:
         """
 
         cipherBlocks = encryptedPackage["cipherBlocks"]
-        originalLength = encryptedPackage["originalLength"]
+        blockLengths = encryptedPackage["blockLengths"]
 
         recoveredBytes = b""
 
-        for cipherText in cipherBlocks:
+        for cipherText, blockLength in zip(cipherBlocks, blockLengths):
             cipherInt = int(cipherText)
 
             messageInt = pow(cipherInt, self.d, self.n)
 
-            blockBytes = messageInt.to_bytes(self.blockSize, byteorder="big")
+            blockBytes = messageInt.to_bytes(blockLength, byteorder="big")
 
             recoveredBytes += blockBytes
-
-        # Remove leading padding from fixed block conversion
-        recoveredBytes = recoveredBytes[-originalLength:]
 
         return recoveredBytes.decode("utf-8")

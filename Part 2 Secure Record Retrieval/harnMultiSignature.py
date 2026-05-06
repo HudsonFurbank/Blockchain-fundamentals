@@ -128,8 +128,35 @@ class HarnMultiSignature:
             "messageHash": messageHash,
             "s_i": s_i,
             "groups" : groupS,
+            "signerIds": [node.identityId for node in inventoryNodes],
             "valid": valid,
             "consensusVotes": consensusVotes,
             "consensusAccepted": consensusAccepted,
         }
     
+    def verifySignaturePackage(self, canonicalMessage, groupt, aggregateSignature, signerIds):
+# Procurement Officer verifies the Harn multi-signature after decrypting the received response.
+# Uses the same verification equation: S^e mod n == product(ID_i) * t^h mod n
+
+        hashInput = f"{groupt},{canonicalMessage}"
+        messageHash = hashToInt(hashInput)
+
+        identityProduct = 1
+
+        for identityId in signerIds:
+            identityProduct = (identityProduct * int(identityId)) % self.n
+
+        left = pow(int(aggregateSignature), self.e, self.n)
+
+        right = (
+            identityProduct * pow(int(groupt), messageHash, self.n)
+        ) % self.n
+
+        valid = left == right
+
+        return {
+            "valid": valid,
+            "messageHash": messageHash,
+            "left": left,
+            "right": right
+    }

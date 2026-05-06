@@ -2,6 +2,7 @@ from inventoryNode import InventoryNode
 from queryHandling import QueryHandler
 from harnMultiSignature import HarnMultiSignature
 from pathlib import Path
+from rsaDelivery import SecureDelivery
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
@@ -68,6 +69,61 @@ def runQueryDemo():
         print("Harn multi-signature: VALID")
         print("The query result has been jointly signed by all inventory nodes.")
         print(f"Final signature S = {multiSigResult['groups']}")
+
+        print("\n=========== SECURE DELIVERY TO PROCUREMENT OFFICER ===========")
+
+        delivery = SecureDelivery(
+            procurementFile=DATA_DIR / "procurementOfficer.json"
+        )
+
+        acceptedResponse = queryResult["canonicalMessage"]
+
+        encryptedResponse = delivery.encryptText(acceptedResponse)
+
+        transmissionPackage = {
+            "encryptedResponse": encryptedResponse,
+            "harnSignature": {
+                "groupt": str(multiSigResult["groupt"]),
+                "aggregateSignature": str(multiSigResult["groups"]),
+                "signerIds": multiSigResult["signerIds"]
+            }
+        }
+
+        print("\nResponse before encryption:")
+        print(acceptedResponse)
+
+        print("\nEncrypted response sent to Procurement Officer:")
+        print(transmissionPackage["encryptedResponse"]["cipherBlocks"])
+
+        print("\n=========== PROCUREMENT OFFICER RECEIVES RESPONSE ===========")
+
+        decryptedResponse = delivery.decryptText(
+        transmissionPackage["encryptedResponse"]
+        )
+
+        print("\nProcurement Officer decrypted response:")
+        print(decryptedResponse)
+
+        print("\nProcurement Officer now validates Harn multi-signature...")
+
+        validationResult = harn.verifySignaturePackage(
+            canonicalMessage=decryptedResponse,
+            groupt=int(transmissionPackage["harnSignature"]["groupt"]),
+            aggregateSignature=int(transmissionPackage["harnSignature"]["aggregateSignature"]),
+            signerIds=transmissionPackage["harnSignature"]["signerIds"]
+        )
+
+        print("\nValidation calculation:")
+        print("Check S^e mod n == product(ID_i) * t^h mod n")
+        print(f"left  = {validationResult['left']}")
+        print(f"right = {validationResult['right']}")
+        print(f"valid = {validationResult['valid']}")
+
+        if validationResult["valid"]:
+            print("\nFinal result accepted by Procurement Officer.")
+        else:
+            print("\nFinal result rejected by Procurement Officer.")
+
     else:
         print("Harn multi-signature: INVALID")
         print("The query result should not be returned to the Procurement Officer.")
