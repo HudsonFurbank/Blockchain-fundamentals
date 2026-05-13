@@ -77,21 +77,31 @@ class HarnMultiSignature:
 
         groupS = 1
 
-        for node in inventoryNodes:
-            g = g_i[node.name]
+        for signingNode in inventoryNodes:
+            g = g_i[signingNode.name]
 
-            s = g * pow(node.randomValue, messageHash, self.n) % self.n
+            s = g * pow(signingNode.randomValue, messageHash, self.n) % self.n
 
-            s_i[node.name] = s
+            s_i[signingNode.name] = s
             groupS = (groupS * s) % self.n
 
-            print(f"{node.name}:")
+            print(f"{signingNode.name}:")
             print("s = g * r^Hash(t, m) mod n")
             print(f"s = {s}")
 
-        print("\nStep 6: Combine s_i for final signature")
+            print(f"{signingNode.name} shares s_i with all other inventories")
+
+            for recievingNode in inventoryNodes:
+                recievingNode.savePartialSignature(
+                    fromNodeName = signingNode.name, partialSignature = s
+                )
+
+        print("\nStep 6: Each inventory combines s_i for final signature")
         print(" S = (s_inventoryA * s_inventoryB * s_inventoryC * s_inventoryD) mod n")
         print(f"S = {groupS}")
+
+        for node in inventoryNodes:
+            node.saveGroupSignature(groupS)
         
         identityProduct = 1
 

@@ -94,4 +94,29 @@ class InventoryNode:
         with open(self.identityFile, "w", encoding = "utf-8") as file:
             json.dump(identityData, file, indent = 4)
 
-        self.savePrivateKey = int(privateKey)
+        self.privateKey = int(privateKey)
+
+    def saveRecords(self):
+        with open(self.dataFile, "w", encoding="utf-8") as file:
+            json.dump(self.records, file, indent=4)
+
+    def savePartialSignature(self, fromNodeName, partialSignature):
+        if not hasattr(self, "s_i"):
+            self.s_i = {}
+
+        self.s_i[fromNodeName] = str(partialSignature)
+
+        signatureRecord = {
+            "s_i": self.s_i
+        }
+
+        self.records.append(signatureRecord)
+        self.saveRecords()
+
+    def saveGroupSignature(self, groupSignature):
+        signatureRecord = {
+            "groups": str(groupSignature)
+        }
+
+        self.records.append(signatureRecord)
+        self.saveRecords()
