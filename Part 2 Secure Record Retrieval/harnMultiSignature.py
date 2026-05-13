@@ -51,23 +51,33 @@ class HarnMultiSignature:
 
         print("\nStep 2: Generate each inventories t_i value:")
 
-        groupt = 1
+        groupT = 1
 
-        for node in inventoryNodes:
-            t = pow(node.randomValue, self.e, self.n)
-            t_i[node.name] = t
-            groupt = (groupt * t) % self.n
+        for signingNode in inventoryNodes:
+            t = pow(signingNode.randomValue, self.e, self.n)
+            t_i[signingNode.name] = t
+            groupT = (groupT * t) % self.n
 
             print(f"{node.name}:")
             print(f"r_{node.name} = {node.randomValue}")
             print(f"t_{node.name} = node rand value^e mod n")
             print(f"t_{node.name} = {t}")
-        
-        print("\nStep 3: group t calculation")
-        print("t = (t_inventoryA * t_inventoryB * t_inventoryC * t_inventoryD) mod n")
-        print(f"t = {groupt}")
 
-        hashInput = f"{groupt},{canonicalMessage}"
+            print(f"{signingNode.name} shares t_i with all inventories")
+
+            for recievingNode in inventoryNodes:
+                recievingNode.saveT_i(
+                    fromNodeName = signingNode.name, tValue = t
+                )
+        
+        print("\nStep 3: each inventory calculates group t")
+        print("t = (t_inventoryA * t_inventoryB * t_inventoryC * t_inventoryD) mod n")
+        print(f"t = {groupT}")
+
+        for node in inventoryNodes:
+            node.saveGroupT(groupT)
+
+        hashInput = f"{groupT},{canonicalMessage}"
         messageHash = hashToInt(hashInput)
 
         print("\nStep 4: Message to Hash:")
@@ -111,7 +121,7 @@ class HarnMultiSignature:
         left = pow(groupS, self.e, self.n)
 
         right = (
-            identityProduct * pow(groupt, messageHash, self.n)
+            identityProduct * pow(groupT, messageHash, self.n)
         ) % self.n
 
         valid = left == right
@@ -134,7 +144,7 @@ class HarnMultiSignature:
 
         return {
             "canonicalMessage": canonicalMessage,
-            "groupt": groupt,
+            "groupT": groupT,
             "messageHash": messageHash,
             "s_i": s_i,
             "groups" : groupS,
@@ -144,11 +154,11 @@ class HarnMultiSignature:
             "consensusAccepted": consensusAccepted,
         }
     
-    def verifySignaturePackage(self, canonicalMessage, groupt, aggregateSignature, signerIds):
+    def verifySignaturePackage(self, canonicalMessage, groupT, aggregateSignature, signerIds):
 # Procurement Officer verifies the Harn multi-signature after decrypting the received response.
 # Uses the same verification equation: S^e mod n == product(ID_i) * t^h mod n
 
-        hashInput = f"{groupt},{canonicalMessage}"
+        hashInput = f"{groupT},{canonicalMessage}"
         messageHash = hashToInt(hashInput)
 
         identityProduct = 1
@@ -159,7 +169,7 @@ class HarnMultiSignature:
         left = pow(int(aggregateSignature), self.e, self.n)
 
         right = (
-            identityProduct * pow(int(groupt), messageHash, self.n)
+            identityProduct * pow(int(groupT), messageHash, self.n)
         ) % self.n
 
         valid = left == right

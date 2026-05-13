@@ -100,6 +100,27 @@ class InventoryNode:
         with open(self.dataFile, "w", encoding="utf-8") as file:
             json.dump(self.records, file, indent=4)
 
+    def saveT_i(self, fromNodeName, tValue):
+        for record in self.records:
+            if "t_i" in record:
+                record["t_i"][fromNodeName] = str(t)
+                self.saveRecords()
+                return
+
+        self.records.append({
+            "t_i": {
+                fromNodeName: str(tValue)
+            }
+        })
+
+    def saveGroupT(self, groupT):
+        groupTRecord = {
+            "group T": str(groupT)
+        }
+
+        self.records.append(groupTRecord)
+        self.saveRecords()
+
     def savePartialSignature(self, fromNodeName, partialSignature):
         for record in self.records:
             if "s_i" in record:
@@ -115,7 +136,7 @@ class InventoryNode:
 
     def saveGroupSignature(self, groupSignature):
         signatureRecord = {
-            "groups": str(groupSignature)
+            "group signature": str(groupSignature)
         }
 
         self.records.append(signatureRecord)
