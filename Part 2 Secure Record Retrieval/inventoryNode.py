@@ -101,17 +101,17 @@ class InventoryNode:
             json.dump(self.records, file, indent=4)
 
     def savePartialSignature(self, fromNodeName, partialSignature):
-        if not hasattr(self, "s_i"):
-            self.s_i = {}
+        for record in self.records:
+            if "s_i" in record:
+                record["s_i"][fromNodeName] = str(partialSignature)
+                self.saveRecords()
+                return
 
-        self.s_i[fromNodeName] = str(partialSignature)
-
-        signatureRecord = {
-            "s_i": self.s_i
-        }
-
-        self.records.append(signatureRecord)
-        self.saveRecords()
+        self.records.append({
+            "s_i": {
+                fromNodeName: str(partialSignature)
+            }
+        })
 
     def saveGroupSignature(self, groupSignature):
         signatureRecord = {
