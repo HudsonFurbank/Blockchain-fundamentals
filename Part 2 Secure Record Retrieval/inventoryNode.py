@@ -103,7 +103,7 @@ class InventoryNode:
     def saveT_i(self, fromNodeName, tValue):
         for record in self.records:
             if "t_i" in record:
-                record["t_i"][fromNodeName] = str(t)
+                record["t_i"][fromNodeName] = str(tValue)
                 self.saveRecords()
                 return
 
