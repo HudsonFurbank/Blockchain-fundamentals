@@ -25,12 +25,9 @@ class SecureDelivery:
         self.blockSize = (self.n.bit_length() - 1) // 8
 
     def encryptText(self, plaintext):
-        """
-        Encrypts text using the Procurement Officer's RSA public key.
-
-        Encryption:
-            c = m^e mod n
-        """
+        #Encrypts text using the Procurement Officer's RSA public key.
+        #Encryption:
+        #c = m^e mod n
 
         plaintextBytes = plaintext.encode("utf-8")
 
@@ -53,12 +50,9 @@ class SecureDelivery:
         }
 
     def decryptText(self, encryptedPackage):
-        """
-        Decrypts text using the Procurement Officer's RSA private key.
-
-        Decryption:
-            m = c^d mod n
-        """
+        #Decrypts text using the Procurement Officer's RSA private key.
+        #Decryption:
+        #m = c^d mod n
 
         cipherBlocks = encryptedPackage["cipherBlocks"]
         blockLengths = encryptedPackage["blockLengths"]
@@ -74,4 +68,4 @@ class SecureDelivery:
 
             recoveredBytes += blockBytes
 
-        return recoveredBytes.decode("utf-8")
+        return recoveredBytes.decode("utf-8") 

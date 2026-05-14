@@ -83,8 +83,8 @@ def runQueryDemo():
         transmissionPackage = {
             "encryptedResponse": encryptedResponse,
             "harnSignature": {
-                "groupt": str(multiSigResult["groupt"]),
-                "aggregateSignature": str(multiSigResult["groups"]),
+                "groupT": str(multiSigResult["groupT"]),
+                "aggregateSignature": str(multiSigResult["groupS"]),
                 "signerIds": multiSigResult["signerIds"]
             }
         }

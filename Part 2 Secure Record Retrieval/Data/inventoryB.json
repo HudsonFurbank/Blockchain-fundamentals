@@ -1,26 +1,26 @@
 [
-  {
-    "itemId": "001",
-    "quantity": 32,
-    "price": 12,
-    "location": "D"
-  },
-  {
-    "itemId": "002",
-    "quantity": 20,
-    "price": 14,
-    "location": "C"
-  },
-  {
-    "itemId": "003",
-    "quantity": 22,
-    "price": 16,
-    "location": "B"
-  },
-  {
-    "itemId": "004",
-    "quantity": 12,
-    "price": 18,
-    "location": "A"
-  }
+    {
+        "itemId": "001",
+        "quantity": 32,
+        "price": 12,
+        "location": "D"
+    },
+    {
+        "itemId": "002",
+        "quantity": 20,
+        "price": 14,
+        "location": "C"
+    },
+    {
+        "itemId": "003",
+        "quantity": 22,
+        "price": 16,
+        "location": "B"
+    },
+    {
+        "itemId": "004",
+        "quantity": 12,
+        "price": 18,
+        "location": "A"
+    }
 ]

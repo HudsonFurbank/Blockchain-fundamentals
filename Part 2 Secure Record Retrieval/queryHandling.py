@@ -105,16 +105,9 @@ class QueryHandler:
 
         return results
 
-    def checkQuantityAgreement(self, nodeResults):
-        """
-        Checks whether the nodes agree on the item quantity.
+    def checkQuantityAgreement(self, nodeResults):   
+    #Checks whether the nodes agree on the item quantity.
 
-        For a clean assignment demo, strict agreement is easiest:
-        - all nodes must find the item
-        - all nodes must report the same quantity
-
-        You can later modify this to majority voting if you want.
-        """
         foundResults = [result for result in nodeResults if result["found"]]
 
         if len(foundResults) != len(nodeResults):
