@@ -23,12 +23,12 @@ def createInventoryNodes():
     inventoryC = InventoryNode(
         name = "inventory C",
         dataFile = DATA_DIR / "inventoryC.json",
-        identityFile = DATA_DIR / "inventoryAIdent.json"
+        identityFile = DATA_DIR / "inventoryCIdent.json"
     )
     inventoryD = InventoryNode(
         name = "inventory D",
         dataFile = DATA_DIR / "inventoryD.json",
-        identityFile = DATA_DIR / "inventoryAIdent.json"
+        identityFile = DATA_DIR / "inventoryDIdent.json"
     )
 
     return [inventoryA, inventoryB, inventoryC, inventoryD]
