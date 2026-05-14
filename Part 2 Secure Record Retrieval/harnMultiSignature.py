@@ -147,7 +147,7 @@ class HarnMultiSignature:
             "groupT": groupT,
             "messageHash": messageHash,
             "s_i": s_i,
-            "groups" : groupS,
+            "groupS" : groupS,
             "signerIds": [node.identityId for node in inventoryNodes],
             "valid": valid,
             "consensusVotes": consensusVotes,

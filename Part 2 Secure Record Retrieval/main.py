@@ -68,7 +68,7 @@ def runQueryDemo():
     if multiSigResult["valid"]:
         print("Harn multi-signature: VALID")
         print("The query result has been jointly signed by all inventory nodes.")
-        print(f"Final signature S = {multiSigResult['groups']}")
+        print(f"Final signature S = {multiSigResult['groupS']}")
 
         print("\n=========== SECURE DELIVERY TO PROCUREMENT OFFICER ===========")
 
@@ -108,7 +108,7 @@ def runQueryDemo():
 
         validationResult = harn.verifySignaturePackage(
             canonicalMessage=decryptedResponse,
-            groupt=int(transmissionPackage["harnSignature"]["groupt"]),
+            groupT=int(transmissionPackage["harnSignature"]["groupT"]),
             aggregateSignature=int(transmissionPackage["harnSignature"]["aggregateSignature"]),
             signerIds=transmissionPackage["harnSignature"]["signerIds"]
         )
